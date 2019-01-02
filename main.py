@@ -25,9 +25,10 @@ def chunks(l, n):
 #Representation
 def Repre():
     
-    RepreList = []
+    RepreList = {}
     for i in range(numberOfPoints):
-        RepreList.append(randint(0,numberOfPoints))
+        randomPoints = randint(0,numberOfPoints-1)
+        RepreList.update({i:randomPoints})
     
     if int(numberOfPoints/numberOfPlayers)==numberOfPoints/numberOfPlayers:
         divider = int(numberOfPoints/numberOfPlayers)
@@ -35,14 +36,20 @@ def Repre():
         divider = int(numberOfPoints/numberOfPlayers)+1
 
     PlayerPoints = list(chunks(X_axis,divider))
+
+    player = []
    
+
     for i in range(len(PlayerPoints)):
-        RepreList.append(len(PlayerPoints[i]))
+        player.append(len(PlayerPoints[i]))
     
     for i in range(len(nameOfPlayer)):
         
         print(nameOfPlayer[i],':',PlayerPoints[i])
 
-    print(*RepreList,sep = ", ")
-
+    for key,val in RepreList.items():
+        print (key, "=>", val)
 Repre()
+
+
+
