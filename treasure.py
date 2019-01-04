@@ -1,6 +1,6 @@
 import pprint
 from math import sqrt
-from random import randint
+from random import randint,shuffle
 import pprint
 
 def getDistant(obj1,obj2):
@@ -100,6 +100,23 @@ class game:
                 print('[' + str(PlayerPoints[i][j].x) +','+ str(PlayerPoints[i][j].y) + ']' + '',end='')  
             print('\n')
 
+    def population(self,):
+        FirstOne = self.points
+        FirstGeneration = []
+        NumberOfFirstGeneration = int(input('How many offsprings?'))
+        for i in range(NumberOfFirstGeneration):
+            shuffle(FirstOne)
+            FirstGeneration.append(list(FirstOne))
+
+        for i in range(NumberOfFirstGeneration):
+            print()
+            for j in range(len(FirstOne)):
+                print('[' + str(FirstGeneration[i][j].x) +','+ str(FirstGeneration[i][j].y) + ']' + '',end='')  
+        print()     
+        
+            
+
+
 
         
 ali = gameAdmin() 
@@ -109,6 +126,7 @@ treasure.getPlayers()
 treasure.createMap()
 treasure.repre()
 treasure.playerPoint()
+treasure.population()
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
