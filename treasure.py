@@ -2,13 +2,15 @@ import pprint
 from math import sqrt
 from random import randint,shuffle
 import pprint
+import os
+import sys
 
-def getDistant(obj1,obj2):
-    xDistance = abs(obj1.getX()-obj2.getX())
-    yDistance = abs(obj1.getY()-obj2.getY())
 
-    distance = float(sqrt((xDistance*xDistance)+(yDistance*yDistance)))
-    return distance
+def clear():
+    if sys.platform == 'win32':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
 class Tools:
@@ -65,6 +67,13 @@ class game:
     def __init__(self, gameAdmin):
         self.gameAdmin = gameAdmin
 
+    def getDistant(self,obj1,obj2):
+        xDistance = abs(obj1.x-obj2.x)
+        yDistance = abs(obj1.y-obj2.y)
+
+        self.distance = float(sqrt((xDistance*xDistance)+(yDistance*yDistance)))
+        return self.distance
+
     def getPlayers(self):
         self.players = []
         self.numberOfplayers = int(input('How many players?'))
@@ -102,19 +111,47 @@ class game:
 
     def population(self,):
         FirstOne = self.points
-        FirstGeneration = []
-        NumberOfFirstGeneration = int(input('How many offsprings?'))
-        for i in range(NumberOfFirstGeneration):
+        self.FirstGeneration = []
+        self.NumberOfFirstGeneration = int(input('How many offsprings?'))
+        for i in range(self.NumberOfFirstGeneration):
             shuffle(FirstOne)
-            FirstGeneration.append(list(FirstOne))
+            self.FirstGeneration.append(list(FirstOne))
 
-        for i in range(NumberOfFirstGeneration):
+        for i in range(self.NumberOfFirstGeneration):
             print()
             for j in range(len(FirstOne)):
-                print('[' + str(FirstGeneration[i][j].x) +','+ str(FirstGeneration[i][j].y) + ']' + '',end='')  
+                print('[' + str(self.FirstGeneration[i][j].x) +','+ str(self.FirstGeneration[i][j].y) + ']' + '',end='')  
         print()     
         
+    def fitnessFunction(self,):
+        Fitness=[]
+        for i in range(self.NumberOfFirstGeneration): 
+
+            GenerationPlayerPoints = list(self.chunks(self.FirstGeneration[i],self.divider))
+            eachFitness=0   
+
+            for j in range(len(self.players)):
+                PlayersGoals= GenerationPlayerPoints[j]
+
+                for k in range(len(PlayersGoals)-1):
+                    eachFitness = eachFitness + self.getDistant(PlayersGoals[k],PlayersGoals[k+1])
             
+            Fitness.append(eachFitness)
+        
+        for i in range(len(Fitness)):
+            print(Fitness[i],sep=',')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -124,9 +161,12 @@ ali.getPoints()
 treasure = game(ali)
 treasure.getPlayers()
 treasure.createMap()
+clear()
 treasure.repre()
 treasure.playerPoint()
 treasure.population()
+print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFitness function')
+treasure.fitnessFunction()
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
