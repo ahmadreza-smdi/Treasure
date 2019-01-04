@@ -124,7 +124,7 @@ class game:
         print()     
         
     def fitnessFunction(self,):
-        Fitness=[]
+        self.Fitness=[]
         for i in range(self.NumberOfFirstGeneration): 
 
             GenerationPlayerPoints = list(self.chunks(self.FirstGeneration[i],self.divider))
@@ -136,16 +136,30 @@ class game:
                 for k in range(len(PlayersGoals)-1):
                     eachFitness = eachFitness + self.getDistant(PlayersGoals[k],PlayersGoals[k+1])
             
-            Fitness.append(eachFitness)
+            self.Fitness.append(1/eachFitness)
         
-        for i in range(len(Fitness)):
-            print(Fitness[i],sep=',')
+        for i in range(len(self.Fitness)):
+            print(self.Fitness[i],sep=',')
+        p = [] 
+        # p = max(Fitness)
+        # g = Fitness.index(p)
+        # c = self.FirstGeneration[Fitness.index(Fittest[i])]
+        # print()
+        # for i in range(len(self.FirstGeneration[g])):
+        #     print(c[i].x,c[i].y,end=',')
 
-
-
-
-
-
+    def selection(self,percentage):
+        SelectFirstGeneration = []
+        print()
+        self.Fitness.sort()
+        Fittest = list(self.Fitness[-int((percentage/100)*len(self.FirstGeneration)):])
+        for i in range(len(Fittest)):           
+            SelectFirstGeneration.append(self.FirstGeneration[self.Fitness.index(Fittest[i])])
+    
+        print('Selection')
+        for i in range(int((percentage/100)*len(self.FirstGeneration))):
+            for j in range(len(self.points)):
+                print(SelectFirstGeneration[i][j].x,SelectFirstGeneration[i][j].y)
 
 
 
@@ -167,6 +181,8 @@ treasure.playerPoint()
 treasure.population()
 print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFitness function')
 treasure.fitnessFunction()
+
+treasure.selection(10)
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
