@@ -1,6 +1,6 @@
 import pprint
 from math import sqrt
-from random import randint,shuffle
+from random import randint,shuffle,choice
 import pprint
 import os
 import sys
@@ -57,7 +57,7 @@ class gameAdmin():
                 print('x[%s] %s'%(i,city.getX()))
                 print('y[%s] %s'%(i,city.getY()))
                 self.GamePoints.append(city)
-                
+        
     def numberOfTools(self):
         return len(self.GamePoints)
 
@@ -149,20 +149,74 @@ class game:
         #     print(c[i].x,c[i].y,end=',')
 
     def selection(self,percentage):
-        SelectFirstGeneration = []
+        self.SelectedFirstGeneration = []
         print()
         self.Fitness.sort()
         Fittest = list(self.Fitness[-int((percentage/100)*len(self.FirstGeneration)):])
         for i in range(len(Fittest)):           
-            SelectFirstGeneration.append(self.FirstGeneration[self.Fitness.index(Fittest[i])])
-    
+            self.SelectedFirstGeneration.append(self.FirstGeneration[self.Fitness.index(Fittest[i])])
+
         print('Selection')
         for i in range(int((percentage/100)*len(self.FirstGeneration))):
             for j in range(len(self.points)):
-                print(SelectFirstGeneration[i][j].x,SelectFirstGeneration[i][j].y)
+                print(self.SelectedFirstGeneration[i][j].x,self.SelectedFirstGeneration[i][j].y)
 
 
 
+    def crossOver(self,number):
+        for i in range(number):
+            obj1 = choice(self.FirstGeneration)
+
+            print('Object1:',end='')
+            for j in range(len(obj1)):
+                print(str(obj1[j].x)+','+str(obj1[j].y),end=' ')
+            print()
+
+
+
+
+            obj2 = choice(self.FirstGeneration)
+
+            print('Object2:',end='')
+            for j in range(len(obj1)):
+                print(str(obj2[j].x)+','+str(obj2[j].y),end=' ')
+            print()
+
+
+            p1 = []
+            p2=[]
+
+            for j in range(int(0.2*len(self.points))):
+                p1.append(choice(obj1))
+                for k in range(len(p1)):
+                    p2.append(obj2.index(p1[k]))
+            p2.sort()
+
+
+
+            print('P2:',end='')
+            print(*p2)
+
+
+            for t in range(len(p1)):
+                print(str(p1[t].x)+','+str(p1[t].y),end=' ')
+            print()
+
+            
+            for d in range(len(p1)):
+                print('len(p1)',len(p1))
+                obj1[obj1.index(p1[d])] = obj2[p2[d]]
+                print("obj2[p2[d]]",obj2[p2[j]].x,obj2[p2[d]].y)
+                
+            self.SelectedFirstGeneration.append(obj1)
+
+            print('CrossOver',end='')
+            for j in range(len(obj1)):
+                print(str(obj1[j].x)+','+str(obj1[j].y),end=' ')
+            print() 
+        print()
+        
+        
 
 
 
@@ -183,6 +237,8 @@ print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFitness function')
 treasure.fitnessFunction()
 
 treasure.selection(10)
+print('HEre is where motherfukcers come')
+treasure.crossOver(1)
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
