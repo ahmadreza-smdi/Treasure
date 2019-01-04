@@ -1,7 +1,7 @@
 import pprint
 from math import sqrt
 from random import randint
-
+import pprint
 
 def getDistant(obj1,obj2):
     xDistance = abs(obj1.getX()-obj2.getX())
@@ -66,10 +66,10 @@ class game:
         self.gameAdmin = gameAdmin
 
     def getPlayers(self):
-        players = []
-        numberOfplayers = int(input('How many players?'))
-        for i in range(numberOfplayers):
-            players.append(input('Enter Player[%s]:'%i))
+        self.players = []
+        self.numberOfplayers = int(input('How many players?'))
+        for i in range(self.numberOfplayers):
+            self.players.append(input('Enter Player[%s]:'%i))
                     
     def createMap(self):
         self.points = []
@@ -80,13 +80,35 @@ class game:
             print('[' + str(self.points[i].x) +','+ str(self.points[i].y) + ']' + '',end='')  
         print()     
 
+    def chunks(self,l, n):
+        for i in range(0, len(l), n):
+            yield l[i:i+n]
+    
 
+    def playerPoint(self,):
+        
+        if int(len(self.points)/self.numberOfplayers)==len(self.points)/self.numberOfplayers:
+            self.divider = int(len(self.points)/self.numberOfplayers)
+        else:
+            self.divider = int(len(self.points)/self.numberOfplayers)+1
+
+        PlayerPoints = list(self.chunks(self.points,self.divider))
+    
+        for i in range(self.numberOfplayers):
+            print(self.players[i] + '"s Goal',end='=')
+            for j in range(len(PlayerPoints[i])):
+                print('[' + str(PlayerPoints[i][j].x) +','+ str(PlayerPoints[i][j].y) + ']' + '',end='')  
+            print('\n')
+
+
+        
 ali = gameAdmin() 
 ali.getPoints()
 treasure = game(ali)
 treasure.getPlayers()
 treasure.createMap()
 treasure.repre()
+treasure.playerPoint()
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
