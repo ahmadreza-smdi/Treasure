@@ -60,11 +60,36 @@ class gameAdmin():
         return len(self.GamePoints)
 
 
+
+class game:
+    def __init__(self, gameAdmin):
+        self.gameAdmin = gameAdmin
+
+    def getPlayers(self):
+        players = []
+        numberOfplayers = int(input('How many players?'))
+        for i in range(numberOfplayers):
+            players.append(input('Enter Player[%s]:'%i))
+                    
+    def createMap(self):
+        self.points = []
+        self.points = gameAdmin.GamePoints
+    
+    def repre(self):
+        for i in range(len(self.points)):
+            print('[' + str(self.points[i].x) +','+ str(self.points[i].y) + ']' + '',end='')  
+        print()     
+
+
 ali = gameAdmin() 
 ali.getPoints()
-print('\n')
-a = ali.numberOfTools()
-print(a)
+treasure = game(ali)
+treasure.getPlayers()
+treasure.createMap()
+treasure.repre()
+# print('\n')
+# a = ali.numberOfTools()
+# print(a)
 # city = Tools(10,20)
 # city1 = Tools(20,30)
 
