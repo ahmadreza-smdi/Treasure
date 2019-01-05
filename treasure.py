@@ -4,7 +4,7 @@ from random import randint,shuffle,choice
 import pprint
 import os
 import sys
-
+import numpy
 
 def clear():
     if sys.platform == 'win32':
@@ -183,19 +183,33 @@ class game:
             print()
 
 
-            p1 = []
+            p1=[]
             p2=[]
+            p3=[]
 
             for j in range(int(0.2*len(self.points))):
-                p1.append(choice(obj1))
-                for k in range(len(p1)):
-                    p2.append(obj2.index(p1[k]))
+                m=choice(obj1)
+                p1.append(m)
+                # p3.append(obj1.index(m))
+                # print('teeeeest')
+                # print(p3[j])
+            for k in range(0,len(p1)):
+                p2.append(obj2.index(p1[k]))
+                print(obj2.index(p1[k]))
             p2.sort()
 
-
-
-            print('P2:',end='')
-            print(*p2)
+            p1InOrder= []            
+            for k in range(len(p1)):
+                p1InOrder.append(obj1.index(p1[k]))
+                print('p1InOrder',p1InOrder)
+            p1InOrder.sort()
+            print('sorted p1:',*p1InOrder)
+            # zipP1 = list(zip(p1InOrder,p1))
+            # zipP1.sort()
+            # p1_sorted = [p1 for p1InOrder, p1 in zipP1]
+            # p1 = p1_sorted
+            # print('P2:',end='')
+            # print(*p2)
 
 
             for t in range(len(p1)):
@@ -203,10 +217,15 @@ class game:
             print()
 
             
-            for d in range(len(p1)):
+            for d in range(len(p2)):
                 print('len(p1)',len(p1))
-                obj1[obj1.index(p1[d])] = obj2[p2[d]]
-                print("obj2[p2[d]]",obj2[p2[j]].x,obj2[p2[d]].y)
+                print('____________________________________________')
+
+                print('obj1[p1InOrder]',obj1[p1InOrder[d]].x,':',obj1[p1InOrder[d]].y)
+                print('obj2[p2[d]]',obj2[p2[d]].x,':',obj2[p2[d]].y)
+                obj1[p1InOrder[d]] = obj2[p2[d]]
+
+                # print("obj1[obj1.index(p1[d])]",obj1[obj1.index(p1[d])].x,obj1[obj1.index(p1[d])].y)
                 
             self.SelectedFirstGeneration.append(obj1)
 
