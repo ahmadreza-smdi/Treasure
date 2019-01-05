@@ -150,16 +150,23 @@ class game:
 
     def selection(self,percentage):
         self.SelectedFirstGeneration = []
-        print()
-        self.Fitness.sort()
-        Fittest = list(self.Fitness[-int((percentage/100)*len(self.FirstGeneration)):])
-        for i in range(len(Fittest)):           
-            self.SelectedFirstGeneration.append(self.FirstGeneration[self.Fitness.index(Fittest[i])])
+        print()        
+        for i in range(int((percentage/100)*len(self.FirstGeneration))+1):
+            self.SelectedFirstGeneration.append(self.FirstGeneration[self.Fitness.index(max(self.Fitness))])
+            self.Fitness[self.Fitness.index(max(self.Fitness))] = 0
+            
+
+
 
         print('Selection')
-        for i in range(int((percentage/100)*len(self.FirstGeneration))):
+        for i in range(len(self.SelectedFirstGeneration)):
             for j in range(len(self.points)):
-                print(self.SelectedFirstGeneration[i][j].x,self.SelectedFirstGeneration[i][j].y)
+                print(self.SelectedFirstGeneration[i][j].x,',',self.SelectedFirstGeneration[i][j].y,end='')
+            print()
+
+
+
+
 
 
 
@@ -185,7 +192,6 @@ class game:
 
             p1=[]
             p2=[]
-            p3=[]
 
             for j in range(int(0.2*len(self.points))):
                 m=choice(obj1)
@@ -229,11 +235,18 @@ class game:
                 
             self.SelectedFirstGeneration.append(obj1)
 
+            for i in range(len(self.SelectedFirstGeneration)):
+                for j in range(len(self.points)):
+                    print(self.SelectedFirstGeneration[i][j].x,',',self.SelectedFirstGeneration[i][j].y,end='  ')
+                print()
+
             print('CrossOver',end='')
             for j in range(len(obj1)):
                 print(str(obj1[j].x)+','+str(obj1[j].y),end=' ')
             print() 
+            print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
         print()
+    
         
         
 
@@ -252,12 +265,10 @@ clear()
 treasure.repre()
 treasure.playerPoint()
 treasure.population()
-print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFitness function')
 treasure.fitnessFunction()
 
 treasure.selection(10)
-print('HEre is where motherfukcers come')
-treasure.crossOver(1)
+treasure.crossOver(2)
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
