@@ -247,15 +247,29 @@ class game:
             print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
         print()
     
+    def mutation(self,percentage):
         
-        
+        for i in range(int((len(self.SelectedFirstGeneration)*percentage/100)+1)):
+            MutationOne = list(choice(self.SelectedFirstGeneration))
+
+            MutationOneIndex = self.SelectedFirstGeneration.index(MutationOne)
+
+            a = MutationOne.index(choice(MutationOne))
+            b = MutationOne.index(choice(MutationOne))
+            
+            self.SelectedFirstGeneration[MutationOneIndex][a],self.SelectedFirstGeneration[MutationOneIndex][b] =self.SelectedFirstGeneration[MutationOneIndex][b],self.SelectedFirstGeneration[MutationOneIndex][a]
+            
+
+   
+        for i in range(len(self.SelectedFirstGeneration)):
+            for j in range(len(self.points)):
+                print(self.SelectedFirstGeneration[i][j].x,',',self.SelectedFirstGeneration[i][j].y,end='  ')
+            print()
 
 
 
 
 
-
-        
 ali = gameAdmin() 
 ali.getPoints()
 treasure = game(ali)
@@ -267,8 +281,10 @@ treasure.playerPoint()
 treasure.population()
 treasure.fitnessFunction()
 
-treasure.selection(10)
+treasure.selection(30)
 treasure.crossOver(2)
+print('\n \n \n \n \n')
+treasure.mutation(10)
 # print('\n')
 # a = ali.numberOfTools()
 # print(a)
