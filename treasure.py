@@ -6,12 +6,15 @@ import os
 import sys
 import numpy
 
+#Clear function to clear screen in any OS
 def clear():
     if sys.platform == 'win32':
         os.system('cls')
     else:
         os.system('clear')
 
+
+#Spot of each tool will add in this class
 
 class Tools:
     def __init__(self,x=None,y=None):
@@ -37,16 +40,20 @@ class Tools:
         return self.y
 
 
+#Function for administrator of game, to add points using Tools class
+
 class gameAdmin():
     GamePoints = []
 
     def getPoints(self):
 
-        NumberOfPoints = int(input('How many Points? \n'))
-        choice = int(input('if you want to insert points enter 1 otherwise enter 0 \n'))
+        NumberOfPoints = int(input("Number Of Points : \n"))
+        print('Options:')
+        print('Press 0 : Random enterance \nPress 1 : Entering point from keyboard')
+        choice = int(input(''))
         if choice == 1:
             for i in range(NumberOfPoints):
-                xaxis = int(input ('X [%s]'%i))
+                xaxis = int(input('X[%s]'%i))
                 yaxis = int(input('Y[%s]'%i))
                 city = Tools(xaxis,yaxis)
                 self.GamePoints.append(city)
@@ -54,19 +61,20 @@ class gameAdmin():
         if choice == 0:
             for i in range(NumberOfPoints):
                 city = Tools()
-                print('x[%s] %s'%(i,city.getX()))
-                print('y[%s] %s'%(i,city.getY()))
+                print('x[%s] %s'%(i,city.getX()),',','y[%s] %s'%(i,city.getY()),end=' ')
                 self.GamePoints.append(city)
         
     def numberOfTools(self):
         return len(self.GamePoints)
 
 
-
+#All of the game details is in this class
 class game:
     def __init__(self, gameAdmin):
         self.gameAdmin = gameAdmin
 
+
+#get distance of two points for each player
     def getDistant(self,obj1,obj2):
         xDistance = abs(obj1.x-obj2.x)
         yDistance = abs(obj1.y-obj2.y)
@@ -74,26 +82,31 @@ class game:
         self.distance = float(sqrt((xDistance*xDistance)+(yDistance*yDistance)))
         return self.distance
 
+#Get information of players
     def getPlayers(self):
         self.players = []
-        self.numberOfplayers = int(input('How many players?'))
+        self.numberOfplayers = int(input('Number Of Player:'))
         for i in range(self.numberOfplayers):
-            self.players.append(input('Enter Player[%s]:'%i))
-                    
+            self.players.append(input('Player[%s]:'%i))
+
+#create map of the game using the points that admin has entered              
     def createMap(self):
         self.points = []
         self.points = gameAdmin.GamePoints
     
+#Representation of each chromosome
     def repre(self):
         for i in range(len(self.points)):
             print('[' + str(self.points[i].x) +','+ str(self.points[i].y) + ']' + '',end='')  
         print()     
 
+#Divide each chromosome
     def chunks(self,l, n):
         for i in range(0, len(l), n):
             yield l[i:i+n]
     
 
+#Assign and show each player spot of each tool to go and possess them
     def playerPoint(self,):
         
         if int(len(self.points)/self.numberOfplayers)==len(self.points)/self.numberOfplayers:
@@ -109,10 +122,14 @@ class game:
                 print('[' + str(PlayerPoints[i][j].x) +','+ str(PlayerPoints[i][j].y) + ']' + '',end='')  
             print('\n')
 
+#Here is the main part of the game
+#we create first chromosome using points
+#by using shuffle we create first generation of possible answers
+#then we add each combination to FirstGeneration
     def population(self,):
         FirstOne = self.points
         self.FirstGeneration = []
-        self.NumberOfFirstGeneration = int(input('How many offsprings?'))
+        self.NumberOfFirstGeneration = int(input('Number Of First Generation:'))
         for i in range(self.NumberOfFirstGeneration):
             shuffle(FirstOne)
             self.FirstGeneration.append(list(FirstOne))
@@ -122,8 +139,16 @@ class game:
             for j in range(len(FirstOne)):
                 print('[' + str(self.FirstGeneration[i][j].x) +','+ str(self.FirstGeneration[i][j].y) + ']' + '',end='')  
         print()     
-        
-    def fitnessFunction(self,):
+
+
+
+#we chunk each possibe answer which is in FirstGeneration to parts for each player
+#then we use getDistant function to process the Fitness of each answer
+#we have three different level for game and by using different fitness function ,
+#we Distinguish between levels, 0 -> easy , 1 -> normal , 2 -> hard
+
+#We add each Fitness value to Fitness and by using index we map it to each answer
+    def fitnessFunction(self,level):
         self.Fitness=[]
         for i in range(len(self.FirstGeneration)): 
 
@@ -135,12 +160,14 @@ class game:
 
                 for k in range(len(PlayersGoals)-1):
                     eachFitness = eachFitness + self.getDistant(PlayersGoals[k],PlayersGoals[k+1])
-            
-            self.Fitness.append(1/eachFitness)
-        
+            if level==0:
+                self.Fitness.append(1/eachFitness)
+            if level==1:
+                            self.Fitness.append(1/eachFitness*eachFitness)            
+            if level==2:
+                            self.Fitness.append(1/eachFitness*eachFitness*eachFitness)
         for i in range(len(self.Fitness)):
             print(self.Fitness[i],sep=',')
-        p = [] 
 
 
     def selection(self,percentage):
@@ -191,9 +218,7 @@ class game:
             for j in range(int(0.2*len(self.points))):
                 m=choice(obj1)
                 p1.append(m)
-                # p3.append(obj1.index(m))
-                # print('teeeeest')
-                # print(p3[j])
+
             for k in range(0,len(p1)):
                 p2.append(obj2.index(p1[k]))
                 print(obj2.index(p1[k]))
@@ -205,13 +230,6 @@ class game:
                 print('p1InOrder',p1InOrder)
             p1InOrder.sort()
             print('sorted p1:',*p1InOrder)
-            # zipP1 = list(zip(p1InOrder,p1))
-            # zipP1.sort()
-            # p1_sorted = [p1 for p1InOrder, p1 in zipP1]
-            # p1 = p1_sorted
-            # print('P2:',end='')
-            # print(*p2)
-
 
             for t in range(len(p1)):
                 print(str(p1[t].x)+','+str(p1[t].y),end=' ')
@@ -267,7 +285,7 @@ class game:
         self.FirstGeneration = self.SelectedFirstGeneration
         for i in range(int(numberOfGeneration)):
             print('Generation___________________%s'%i)
-            self.fitnessFunction()
+            self.fitnessFunction(0)
             self.selection(30)
             self.crossOver(2)
             self.mutation(10)
@@ -285,18 +303,9 @@ clear()
 treasure.repre()
 treasure.playerPoint()
 treasure.population()
-treasure.fitnessFunction()
+treasure.fitnessFunction(0)
 
 treasure.selection(30)
 treasure.crossOver(2)
-print('\n \n \n \n \n')
 treasure.mutation(10)
 treasure.generation()
-# print('\n')
-# a = ali.numberOfTools()
-# print(a)
-# city = Tools(10,20)
-# city1 = Tools(20,30)
-
-# a = float(getDistant(city,city1))
-# print(a)
