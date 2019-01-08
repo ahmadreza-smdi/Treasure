@@ -5,7 +5,7 @@ import pprint
 import os
 import sys
 import numpy
-
+import time
 #Clear function to clear screen in any OS
 def clear():
     if sys.platform == 'win32':
@@ -163,9 +163,9 @@ class game:
             if level==0:
                 self.Fitness.append(1/eachFitness)
             if level==1:
-                            self.Fitness.append(1/eachFitness*eachFitness)            
+                self.Fitness.append(1/eachFitness*eachFitness)            
             if level==2:
-                            self.Fitness.append(1/eachFitness*eachFitness*eachFitness)
+                self.Fitness.append(1/eachFitness*eachFitness*eachFitness)
         # for i in range(len(self.Fitness)):
         #     print(self.Fitness[i],sep=',')
         if maxFitness==1:
@@ -280,10 +280,11 @@ class game:
 #Number of generation to create, it include selection,crossOver,mutation
     def generation(self,):
         numberOfGeneration = input('How many generations do you want to create?')
-        self.Hardness = int(input('Easy:0 Normal:1 Hard:2'))
+        self.Hardness = int(input('Easy:0 Normal:1 Hard:2 \n'))
         print()
         for i in range(int(numberOfGeneration)):
             self.fitnessFunction(self.Hardness,0)
+            self.start_time = time.time()
             self.selection(30)
             self.crossOver(2)
             self.mutation(10)
@@ -299,6 +300,7 @@ class game:
         for i in range(len(bestAns)):
             print('['+str(bestAns[i].x)+','+str(bestAns[i].y)+']',end='')
         print()
+        print("--- %s seconds ---" % (time.time() - self.start_time))
 def main():
     print('\n\n\n_______________________________WELCOM TO TREASURE_______________________________')
     admin = gameAdmin() 
@@ -312,6 +314,5 @@ def main():
     treasure.population()
     treasure.generation()
     treasure.BestAnswer()
-
 
 main()
