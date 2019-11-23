@@ -9,7 +9,7 @@ This project represents the TREASURE game implementation for the
 
 The contributors to this project are as listed.
 
-* **Ahmadreza Samadi** – [email](mailto:ahmadreza.smdi@gmail.com) – [Gitlab repo](@ahmadreza.smdi)
-* **Badrodin Beheshti** – [email](mailto:beheshti.7676@gmail.com) – [Gitlab repo](@)
+* **Ahmadreza Samadi** – [email](mailto:ahmadreza.smdi@gmail.com)
+* **Badrodin Beheshti** – [email](mailto:beheshti.7676@gmail.com)
 
 *Thanks for your attention.*
